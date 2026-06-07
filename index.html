@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATS4794 // TACTICAL SECURE NODE</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Tactical Monospace styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@300;400;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for vector indicators -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --neon-red: #ff1a40;
+            --neon-dark: #050203;
+            --neon-border: rgba(255, 26, 64, 0.15);
+            --neon-glow: rgba(255, 26, 64, 0.35);
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+            background-color: var(--neon-dark);
+            color: #fcebeb;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(rgba(255, 26, 64, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, #050203 0%, #0d0305 100%);
+            background-size: 24px 24px, 100% 100%;
+        }
+
+        .heading-tactical {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.12em;
+        }
+
+        /* CRT Overlay Scanlines */
+        .crt::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        /* Glitch Animation for Titles */
+        .glitch-text {
+            position: relative;
+            animation: glitch 1.5s infinite;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-dark);
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff0000;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 4s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #00ffff, 0 1px #ff0000;
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitch-anim2 4s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(15px, 9999px, 66px, 0); }
+            50% { clip: rect(34px, 9999px, 5px, 0); }
+            100% { clip: rect(81px, 9999px, 115px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(70px, 9999px, 105px, 0); }
+            50% { clip: rect(12px, 9999px, 85px, 0); }
+            100% { clip: rect(40px, 9999px, 110px, 0); }
+        }
+
+        /* Cyberpunk Tactical Border Box styling */
+        .tactical-border {
+            border: 1px solid var(--neon-border);
+            box-shadow: 0 0 15px rgba(255, 26, 64, 0.03);
+            position: relative;
+        }
+
+        .tactical-border::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 8px; height: 8px;
+            border-top: 2px solid var(--neon-red);
+            border-left: 2px solid var(--neon-red);
+        }
+
+        .tactical-border::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 8px; height: 8px;
+            border-bottom: 2px solid var(--neon-red);
+            border-right: 2px solid var(--neon-red);
+        }
+
+        /* Red pulsing dots */
+        .pulsate-red {
+            box-shadow: 0 0 8px #ff1a40;
+            animation: pulse-key 2s infinite;
+        }
+
+        @keyframes pulse-key {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080203;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff1a40;
+            border-radius: 2px;
+        }
+
+        /* Screentremble glitch trigger */
+        .shaking-alert {
+            animation: screen-shake 0.25s linear infinite;
+        }
+        @keyframes screen-shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-2px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 1px) rotate(-1deg); }
+            100% { transform: translate(1px, -1px) rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="crt overflow-x-hidden text-red-100/90 relative">
+
+    <!-- Top Tactical Alert Strip -->
+    <div class="w-full bg-[#170507] border-b border-[#ff1a40]/30 text-[#ff1a40] text-[10px] md:text-xs uppercase font-black py-2.5 px-4 flex flex-col sm:flex-row justify-between items-center z-50 relative gap-2 tracking-widest">
+        <div class="flex items-center gap-2.5">
+            <span class="inline-block w-2 h-2 rounded-full bg-red-600 pulsate-red"></span>
+            <span>RESTRICTED PORTAL // SYSTEM ACCESS SECURED</span>
+        </div>
+        <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-[10px]">
+            <span>LOC: MANILA, PH</span>
+            <span>CLOCK: <span id="clock" class="text-white font-black">--:--:-- PHT</span></span>
+            <span class="hidden md:inline">HAZARD STATUS: <span class="bg-red-950 text-red-400 border border-red-500/40 px-1.5 py-0.5 font-bold">TERMINAL ACCESS</span></span>
+        </div>
+    </div>
+
+    <!-- MAIN HUD HEADER -->
+    <header class="relative border-b border-[#ff1a40]/10 bg-[#070203]/90 py-10 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-8">
+            <div class="w-full lg:w-2/3">
+                <div class="flex flex-wrap items-center gap-2 text-[10px] tracking-widest text-[#ff1a40] font-black code-font mb-3">
+                    <span>SYS_CLEARANCE // S3_LEVEL</span>
+                    <span class="text-red-950">|</span>
+                    <span class="flex items-center gap-1 text-red-400"><i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> ENCRYPTED PAYLOAD ACTIVE</span>
+                </div>
+                
+                <!-- Glitched Username -->
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-black heading-tactical tracking-tighter text-white uppercase flex items-baseline gap-2 mb-4">
+                    <span class="glitch-text text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-rose-500 to-orange-400" data-text="DATS4794">DATS4794</span>
+                    <span class="text-[#ff1a40] text-xl animate-pulse">_</span>
+                </h1>
+
+                <p class="text-gray-400 text-xs sm:text-sm md:text-base max-w-2xl code-font leading-relaxed">
+                    Custom deployment optimization engineer specializing in full-stack architecture execution, automated pipelines, native routing frameworks, and clean data payloads.
+                </p>
+            </div>
+
+            <!-- Diagnostics Metrics Dashboard -->
+            <div class="w-full lg:w-1/3 bg-[#0a0304] border border-red-950/60 rounded-lg p-5 tactical-border flex flex-col gap-4 text-xs code-font">
+                <div class="border-b border-[#ff1a40]/20 pb-2.5 flex justify-between items-center">
+                    <span class="text-[#ff1a40] font-black uppercase flex items-center gap-2">
+                        <i data-lucide="activity" class="w-4 h-4 animate-pulse text-red-500"></i>
+                        Live Core Diagnostics
+                    </span>
+                    <span class="text-gray-600 font-mono">NODE_ENG_v4.2</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <span class="text-gray-500 text-[10px] block mb-1 uppercase">Stabilization Rate:</span>
+                        <div class="flex items-center gap-2">
+                            <div class="h-1.5 w-16 sm:w-20 bg-gray-900 rounded-full overflow-hidden">
+                                <div class="bg-red-600 h-full w-[97%] rounded-full animate-pulse"></div>
+                            </div>
+                            <span class="text-white text-[11px] font-bold">97%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 text-[10px] block mb-1 uppercase">Firewall Scans:</span>
+                        <div class="flex items-center gap-1.5 text-emerald-400 font-bold">
+                            <span class="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
+                            <span>SHIELDED</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 text-[10px] block mb-1 uppercase">Target Runtime:</span>
+                        <span class="text-white font-bold text-[11px]" id="runtime">00:00:00:00</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 text-[10px] block mb-1 uppercase">Stack Matrix:</span>
+                        <span class="text-rose-400 font-bold">REACT, TS, PHP, NODE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTERACTIVE TERMINAL LAYER & MAIN CORE DOCK -->
+    <main class="max-w-7xl mx-auto py-8 md:py-12 px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        
+        <!-- Interactive Terminal Simulator (Left/Top Col - Heavy Engager) -->
+        <section class="lg:col-span-8 flex flex-col bg-[#050203]/95 border border-[#ff1a40]/25 rounded-lg overflow-hidden relative shadow-2xl shadow-red-950/15">
+            <!-- Terminal Header -->
+            <div class="bg-[#0b0304] border-b border-[#ff1a40]/25 px-4 py-3 flex flex-col sm:flex-row justify-between items-center select-none gap-2">
+                <div class="flex items-center gap-2.5 w-full sm:w-auto">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#ff1a40]"></span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider text-gray-400 font-bold flex items-center gap-1.5">
+                        <i data-lucide="terminal" class="w-4 h-4 text-[#ff1a40]"></i>
+                        tactical_shell_bypass.sh
+                    </span>
+                </div>
+                <!-- Audio Controls -->
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <button onclick="toggleAudio()" id="audio-toggle" class="text-[10px] bg-red-950/60 border border-red-500/40 text-[#ff1a40] px-2.5 py-1 rounded hover:bg-[#ff1a40]/20 transition flex items-center gap-1 font-bold">
+                        <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> <span>AUDIO: ON</span>
+                    </button>
+                    <div class="text-[9px] text-gray-500 font-mono hidden md:inline">
+                        TYPE 'HELP' FOR PAYLOADS
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Output Window -->
+            <div id="terminal-screen" class="p-4 md:p-6 h-[320px] md:h-[380px] overflow-y-auto text-xs code-font space-y-3 leading-relaxed text-red-50/70 select-text">
+                <div><span class="text-[#ff1a40] font-bold">[i] HANDSHAKE INITIATION SUCCESSFUL WITH HOST AP_X479</span></div>
+                <div><span class="text-gray-500">[LOG] Resolving secure repositories under dats4794.github.io...</span></div>
+                <div><span class="text-emerald-400 font-bold">[SUCCESS]</span> React Native packages, native routing engines, and CI pipelines loaded securely.</div>
+                <div>Type <span class="text-yellow-400 font-bold underline cursor-pointer hover:text-yellow-300" onclick="handleTermCommand('help')">help</span> to query the interactive command manifest.</div>
+                <div id="term-anchor" class="pt-0.5"></div>
+            </div>
+
+            <!-- Terminal Prompt Entry -->
+            <div class="bg-[#030101] border-t border-[#ff1a40]/20 p-3 md:p-4 flex items-center gap-2">
+                <span class="text-[#ff1a40] font-black code-font text-xs tracking-wider select-none">dats4794@mainframe:~$</span>
+                <input type="text" id="terminal-input" 
+                       class="bg-transparent text-white border-none outline-none focus:ring-0 w-full font-mono text-xs caret-[#ff1a40] tracking-wide"
+                       placeholder="Enter terminal prompt..." 
+                       autocomplete="off" 
+                       autocorrect="off" 
+                       autocapitalize="off" 
+                       spellcheck="false">
+                <button onclick="submitTerminalCommand()" class="bg-[#ff1a40]/10 hover:bg-[#ff1a40]/25 text-[#ff1a40] border border-[#ff1a40]/40 px-3.5 py-1.5 rounded text-[10px] font-bold uppercase transition select-none tracking-wider">
+                    RUN
+                </button>
+            </div>
+        </section>
+
+        <!-- Tactical Threat Intelligence Column (Right Col) -->
+        <aside class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Real-time Sweep Radar (Responsive Canvas) -->
+            <div class="bg-[#0a0304] border border-[#ff1a40]/25 rounded-lg p-5 flex flex-col gap-4 relative overflow-hidden tactical-border">
+                <h3 class="text-xs uppercase tracking-widest text-[#ff1a40] font-black flex items-center gap-2 border-b border-red-950/60 pb-2">
+                    <i data-lucide="radar" class="w-4 h-4 animate-spin text-red-500" style="animation-duration: 4s;"></i> TACTICAL SCANNER RADAR
+                </h3>
+                
+                <div class="relative w-full h-[180px] bg-black/40 rounded border border-red-950 flex items-center justify-center overflow-hidden">
+                    <canvas id="radar-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                </div>
+                <div class="flex justify-between items-center text-[10px] code-font text-gray-500">
+                    <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> SCAN RUNNING</span>
+                    <span>BEARING: 135.4°</span>
+                </div>
+            </div>
+
+            <!-- Real-time Active Systems Output Feed -->
+            <div class="bg-[#0a0304] border border-[#ff1a40]/20 rounded-lg p-5 flex flex-col gap-4">
+                <h3 class="text-xs uppercase tracking-widest text-[#ff1a40] font-black flex items-center gap-2 border-b border-red-950/60 pb-2">
+                    <i data-lucide="history" class="w-4 h-4 text-red-500"></i> ACTIVE THREAT FEED
+                </h3>
+                <div class="flex flex-col gap-2.5 h-[140px] overflow-y-auto pr-1 text-[10px] code-font" id="threat-feed">
+                    <!-- Realtime JS inserts updates here -->
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <!-- OVERRIDE PAYLOAD DIRECTIVES (QUICK ACTIONS) -->
+    <section class="max-w-7xl mx-auto py-6 px-4 md:px-6">
+        <div class="bg-[#0a0304] border border-[#ff1a40]/20 rounded-lg p-6 relative overflow-hidden tactical-border">
+            <h3 class="text-xs uppercase tracking-widest text-[#ff1a40] font-black flex items-center gap-2 border-b border-red-950/60 pb-3 mb-4">
+                <i data-lucide="shield-alert" class="w-4.5 h-4.5"></i> ENHANCED CONSOLE DIRECTIVES
+            </h3>
+            <p class="text-xs text-gray-400 mb-6">Interact directly with client system hardware controls to test terminal capabilities, bypass interface blocks, or trigger synthetic audits.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <button onclick="triggerOverride()" class="text-left bg-red-950/20 hover:bg-red-950/50 border border-red-500/30 p-3.5 rounded-lg text-xs font-bold text-red-200 transition flex items-center justify-between group">
+                    <span class="flex items-center gap-2"><i data-lucide="skull" class="w-4 h-4 text-red-500"></i> SECURE DEVIATOR BYPASS</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-red-500 group-hover:translate-x-1 transition"></i>
+                </button>
+                
+                <button onclick="triggerMatrixRain()" class="text-left bg-red-950/20 hover:bg-red-950/50 border border-red-500/30 p-3.5 rounded-lg text-xs font-bold text-red-200 transition flex items-center justify-between group">
+                    <span class="flex items-center gap-2"><i data-lucide="binary" class="w-4 h-4 text-red-500"></i> INITIALIZE MATRIX FEED</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-red-500 group-hover:translate-x-1 transition"></i>
+                </button>
+
+                <button onclick="triggerAudioPing()" class="text-left bg-red-950/20 hover:bg-red-950/50 border border-red-500/30 p-3.5 rounded-lg text-xs font-bold text-red-200 transition flex items-center justify-between group sm:col-span-2 lg:col-span-1">
+                    <span class="flex items-center gap-2"><i data-lucide="radio" class="w-4 h-4 text-red-500"></i> TRANSMIT CONSOLE SONAR</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-red-500 group-hover:translate-x-1 transition"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILED INTEL FILES SECTION (PROJECTS / SKILLS) -->
+    <section class="max-w-7xl mx-auto py-12 px-4 md:px-6">
+        <div class="border-b border-[#ff1a40]/30 pb-4 mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+                <span class="text-[#ff1a40] font-black tracking-widest text-xs uppercase block mb-1 font-mono">// SECURE_ARCHIVE_MAPPINGS</span>
+                <h2 class="text-2xl md:text-3xl font-black heading-tactical tracking-wider text-white uppercase">REPOSITORIES & ENGINES</h2>
+            </div>
+            <div class="text-[10px] md:text-xs text-gray-500 font-mono">
+                DECRYPTING ENCODED TARGET SOURCE CODES
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Repo Block 1 -->
+            <div class="bg-[#0a0304] border border-red-950 hover:border-red-600/30 p-6 rounded-lg transition-all duration-300 relative group flex flex-col justify-between tactical-border">
+                <div class="absolute top-2.5 right-2.5 px-2 py-0.5 bg-red-950/60 border border-red-800/30 text-[9px] text-[#ff1a40] font-mono rounded font-bold uppercase">
+                    TS // EXPO
+                </div>
+                <div>
+                    <span class="text-[#ff1a40] font-bold text-xs code-font block mb-1.5">SECURE MODULE 01</span>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-3 group-hover:text-[#ff1a40] transition">React Native Mobile Structures</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                        Ultra-strict static typed components engineered to run under lightweight Expo layers. Configured for fast caching patterns, responsive touch handles, and robust module wrappers.
+                    </p>
+                </div>
+                <div class="flex justify-between items-center pt-4 border-t border-red-950/60">
+                    <span class="text-gray-600 text-[10px] code-font font-bold">METRIC: MAX_IO</span>
+                    <a href="https://github.com/Dats4794" target="_blank" class="text-red-400 hover:text-white transition flex items-center gap-1 text-xs font-bold">
+                        OPEN ARCHIVE <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Repo Block 2 -->
+            <div class="bg-[#0a0304] border border-red-950 hover:border-red-600/30 p-6 rounded-lg transition-all duration-300 relative group flex flex-col justify-between tactical-border">
+                <div class="absolute top-2.5 right-2.5 px-2 py-0.5 bg-red-950/60 border border-red-800/30 text-[9px] text-[#ff1a40] font-mono rounded font-bold uppercase">
+                    PHP // SLICK
+                </div>
+                <div>
+                    <span class="text-[#ff1a40] font-bold text-xs code-font block mb-1.5">SECURE MODULE 02</span>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-3 group-hover:text-[#ff1a40] transition">Micro API Routers & Gateways</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                        Bypassing heavy backend constraints with modular, raw PHP routers. Written to interface directly with SQL query maps to keep response speed to sub-milliseconds.
+                    </p>
+                </div>
+                <div class="flex justify-between items-center pt-4 border-t border-red-950/60">
+                    <span class="text-gray-600 text-[10px] code-font font-bold">METRIC: HYPER_SPEED</span>
+                    <a href="https://github.com/Dats4794" target="_blank" class="text-red-400 hover:text-white transition flex items-center gap-1 text-xs font-bold">
+                        OPEN ARCHIVE <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Repo Block 3 -->
+            <div class="bg-[#0a0304] border border-red-950 hover:border-red-600/30 p-6 rounded-lg transition-all duration-300 relative group flex flex-col justify-between tactical-border">
+                <div class="absolute top-2.5 right-2.5 px-2 py-0.5 bg-red-950/60 border border-red-800/30 text-[9px] text-[#ff1a40] font-mono rounded font-bold uppercase">
+                    ACTIONS // SHELL
+                </div>
+                <div>
+                    <span class="text-[#ff1a40] font-bold text-xs code-font block mb-1.5">SECURE MODULE 03</span>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-3 group-hover:text-[#ff1a40] transition">Automation Hooks & Sync Blocks</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-6">
+                        Custom automation environments engineered using target continuous-deploy protocols. Automatically coordinates staging pushes, build checks, and dynamic server environment handshakes.
+                    </p>
+                </div>
+                <div class="flex justify-between items-center pt-4 border-t border-red-950/60">
+                    <span class="text-gray-600 text-[10px] code-font font-bold">METRIC: CONTINUOUS</span>
+                    <a href="https://github.com/Dats4794" target="_blank" class="text-red-400 hover:text-white transition flex items-center gap-1 text-xs font-bold">
+                        OPEN ARCHIVE <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REAL-TIME INTERACTIVE OVERRIDE POPUP DIALOG -->
+    <div id="override-modal" class="fixed inset-0 bg-black/95 flex items-center justify-center z-[999] hidden p-4">
+        <div class="w-full max-w-xl bg-[#090203] border-2 border-red-600 p-5 md:p-6 rounded-lg shadow-2xl relative code-font">
+            <div class="flex justify-between items-center border-b border-red-600/40 pb-3 mb-4">
+                <h3 class="text-xs md:text-sm font-bold text-red-500 uppercase flex items-center gap-2">
+                    <i data-lucide="alert-octagon" class="w-4.5 h-4.5 animate-ping text-red-500"></i>
+                    AUDIT EXTRUSION SYSTEM DETECTED
+                </h3>
+                <button onclick="closeOverrideModal()" class="text-gray-500 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <p class="text-[11px] md:text-xs text-red-100/70 mb-4 leading-relaxed">
+                Security bypass initialized successfully on target server root. Live tracking algorithms are matching system-wide keys. Touch confirm option below to authorize trace bypass.
+            </p>
+
+            <div class="bg-black/95 border border-red-950/80 rounded p-3 text-[10px] space-y-1.5 mb-4 h-36 overflow-y-auto" id="modal-console">
+                <p class="text-green-500">// HANDSHAKE AUTHENTICATED AT PORT_8080</p>
+                <p class="text-yellow-400">// BYPASS SECURE PAYLOAD TO HOST SERVER...</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="simulateDatsBreach()" class="bg-red-600 hover:bg-red-700 text-white font-black py-3 px-4 rounded text-xs tracking-wider transition uppercase w-full">
+                    EXECUTE HARDWARE BYPASS
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER TACTICAL BLOCK -->
+    <footer class="border-t border-[#ff1a40]/20 bg-[#070203] py-12 px-4 md:px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-xs code-font text-gray-500">
+            <div class="flex items-center gap-2.5">
+                <span class="inline-block w-2 h-2 bg-red-600/60 rounded-full animate-pulse"></span>
+                <span>DATS4794 // TACTICAL SECURE NODE &copy; 2026.</span>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-6">
+                <a href="#hero" class="hover:text-white transition uppercase">REBOOT SYSTEM</a>
+                <span class="text-red-950">|</span>
+                <a href="https://github.com/Dats4794" target="_blank" class="hover:text-white transition flex items-center gap-1">
+                    <i data-lucide="github" class="w-4.5 h-4.5 text-[#ff1a40]"></i> SECURE_HOST
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Web Audio Context State Management
+        let audioCtx = null;
+        let isAudioMuted = false;
+
+        function playSynthSound(freq, type, duration, volume = 0.08) {
+            if (isAudioMuted) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type; // 'sine', 'square', 'sawtooth', 'triangle'
+                osc.frequency.value = freq;
+                
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                // AudioContext blocked or unsupported, fail silently
+            }
+        }
+
+        // Toggle Audio State Handler
+        function toggleAudio() {
+            isAudioMuted = !isAudioMuted;
+            const btn = document.getElementById('audio-toggle');
+            if (isAudioMuted) {
+                btn.innerHTML = `<i data-lucide="volume-x" class="w-3.5 h-3.5"></i> <span>AUDIO: OFF</span>`;
+                btn.classList.add('opacity-50');
+            } else {
+                btn.innerHTML = `<i data-lucide="volume-2" class="w-3.5 h-3.5"></i> <span>AUDIO: ON</span>`;
+                btn.classList.remove('opacity-50');
+                playSynthSound(800, 'sine', 0.1, 0.08);
+            }
+            lucide.createIcons();
+        }
+
+        // Trigger tactical hover clicks on buttons
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mouseenter', () => {
+                playSynthSound(1000, 'triangle', 0.04, 0.02);
+            });
+            elem.addEventListener('click', () => {
+                playSynthSound(1400, 'square', 0.1, 0.05);
+            });
+        });
+
+        // Format live clock to Philippine Standard Time (PHT, Asia/Manila)
+        function updateClock() {
+            const options = {
+                timeZone: 'Asia/Manila',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const now = new Date();
+            const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+            document.getElementById('clock').innerText = timeString + " PHT";
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Runtime Ticking calculation
+        const startTime = Date.now();
+        function updateRuntime() {
+            const elapsed = Date.now() - startTime;
+            const ms = Math.floor((elapsed % 1000) / 10).toString().padStart(2, '0');
+            const sec = Math.floor((elapsed / 1000) % 60).toString().padStart(2, '0');
+            const min = Math.floor((elapsed / 60000) % 60).toString().padStart(2, '0');
+            const hr = Math.floor((elapsed / 3600000) % 24).toString().padStart(2, '0');
+            document.getElementById('runtime').innerText = `${hr}:${min}:${sec}:${ms}`;
+        }
+        setInterval(updateRuntime, 33);
+
+        // Threat Intelligence Feed simulator
+        const feeds = [
+            "SCANNING DIRECTORY: node_modules/expo-cli",
+            "RECOGNIZING PROTOCOL: mysql2_secure_handler",
+            "VERIFYING SECURITY: SHA256 matches root host",
+            "MAPPING API ENDPOINT: router.php?get_repos",
+            "PINGING GITHUB ACTIONS MAIN RUNNER... [OK]",
+            "DECRYPTING CORE MODULE SCHEMA NODE...",
+            "VERIFYING PHT CLIENT REGION CODES... [OK]"
+        ];
+        const threatFeed = document.getElementById('threat-feed');
+        function addThreatFeed() {
+            const randomFeed = feeds[Math.floor(Math.random() * feeds.length)];
+            const timeStr = new Date().toLocaleTimeString('en-US', { hour12: false });
+            
+            const p = document.createElement('p');
+            p.className = 'text-red-400 border-b border-red-950/20 pb-1 flex justify-between gap-1';
+            p.innerHTML = `<span>>> ${randomFeed}</span> <span class="text-gray-600 text-[8px] shrink-0">${timeStr}</span>`;
+            threatFeed.insertBefore(p, threatFeed.firstChild);
+            
+            if (threatFeed.children.length > 20) {
+                threatFeed.removeChild(threatFeed.lastChild);
+            }
+        }
+        setInterval(addThreatFeed, 3000);
+        addThreatFeed();
+
+        // Responsive interactive Radar logic
+        const radarCanvas = document.getElementById('radar-canvas');
+        const radarCtx = radarCanvas.getContext('2d');
+        let radarAngle = 0;
+        const scanNodes = [
+            { r: 40, theta: 45, size: 4, label: 'EXPO_M1' },
+            { r: 75, theta: 130, size: 3, label: 'SQL_GATE' },
+            { r: 60, theta: 270, size: 5, label: 'CI_HOOK_01' }
+        ];
+
+        function resizeRadar() {
+            const rect = radarCanvas.parentElement.getBoundingClientRect();
+            radarCanvas.width = rect.width;
+            radarCanvas.height = rect.height;
+        }
+        window.addEventListener('resize', resizeRadar);
+        resizeRadar();
+
+        function drawRadar() {
+            const cx = radarCanvas.width / 2;
+            const cy = radarCanvas.height / 2;
+            const maxRadius = Math.max(0, Math.min(cx, cy) - 10);
+            
+            radarCtx.clearRect(0, 0, radarCanvas.width, radarCanvas.height);
+            
+            // Draw radar grid rings (clamped safely above zero)
+            radarCtx.strokeStyle = 'rgba(255, 26, 64, 0.1)';
+            radarCtx.lineWidth = 1;
+            for (let r = 1; r <= 3; r++) {
+                radarCtx.beginPath();
+                const ringRadius = Math.max(0, (maxRadius / 3) * r);
+                radarCtx.arc(cx, cy, ringRadius, 0, Math.PI * 2);
+                radarCtx.stroke();
+            }
+
+            // Draw axis lines
+            radarCtx.beginPath();
+            radarCtx.moveTo(cx - maxRadius, cy);
+            radarCtx.lineTo(cx + maxRadius, cy);
+            radarCtx.moveTo(cx, cy - maxRadius);
+            radarCtx.lineTo(cx, cy + maxRadius);
+            radarCtx.stroke();
+
+            // Draw Sweep Line
+            radarCtx.strokeStyle = 'rgba(255, 26, 64, 0.35)';
+            radarCtx.lineWidth = 2;
+            radarCtx.beginPath();
+            radarCtx.moveTo(cx, cy);
+            const sweepX = cx + maxRadius * Math.cos(radarAngle);
+            const sweepY = cy + maxRadius * Math.sin(radarAngle);
+            radarCtx.lineTo(sweepX, sweepY);
+            radarCtx.stroke();
+
+            // Draw Threat Nodes
+            scanNodes.forEach(node => {
+                const nodeRad = Math.max(0, (maxRadius / 100) * node.r);
+                const nodeAngle = (node.theta * Math.PI) / 180;
+                const nx = cx + nodeRad * Math.cos(nodeAngle);
+                const ny = cy + nodeRad * Math.sin(nodeAngle);
+                
+                // Calculate distance between sweeper and target node for neon-glow blink logic
+                const diff = Math.abs(radarAngle - nodeAngle) % (Math.PI * 2);
+                const glow = Math.max(0, 1 - (diff / 0.5)); // Fades out away from sweeper
+
+                radarCtx.beginPath();
+                const computedNodeSize = Math.max(0, node.size + (glow * 2));
+                radarCtx.arc(nx, ny, computedNodeSize, 0, Math.PI * 2);
+                radarCtx.fillStyle = glow > 0.1 ? `rgba(255, 26, 64, ${0.4 + glow * 0.6})` : 'rgba(255, 26, 64, 0.2)';
+                radarCtx.fill();
+
+                if (glow > 0.3) {
+                    radarCtx.fillStyle = '#ffffff';
+                    radarCtx.font = '7px monospace';
+                    radarCtx.fillText(node.label, nx + 8, ny + 3);
+                }
+            });
+
+            radarAngle = (radarAngle + 0.02) % (Math.PI * 2);
+            requestAnimationFrame(drawRadar);
+        }
+        drawRadar();
+
+        // Console Parser logic
+        const termInput = document.getElementById('terminal-input');
+        const termScreen = document.getElementById('terminal-screen');
+        const anchor = document.getElementById('term-anchor');
+
+        function appendOutput(text, styleClass = '') {
+            const line = document.createElement('div');
+            if (styleClass) {
+                line.className = styleClass;
+            }
+            line.innerHTML = text;
+            termScreen.insertBefore(line, anchor);
+            termScreen.scrollTop = termScreen.scrollHeight;
+        }
+
+        termInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                submitTerminalCommand();
+            }
+        });
+
+        function handleTermCommand(rawCmd) {
+            const cmd = rawCmd.trim().toLowerCase();
+            if (!cmd) return;
+
+            appendOutput(`<span class="text-[#ff1a40]">dats4794@mainframe:~$</span> ${rawCmd}`);
+            playSynthSound(900, 'square', 0.08, 0.04);
+
+            switch (cmd) {
+                case 'help':
+                    appendOutput(`
+<div class="space-y-1 mt-2 text-rose-400">
+  <p class="font-bold">// DIRECTIVE CONSOLE INDEX:</p>
+  <p><span class="text-white font-bold">about</span>       - Decrypt core tactical profile data on Dats4794</p>
+  <p><span class="text-white font-bold">skills</span>      - Print software loadouts and capability parameters</p>
+  <p><span class="text-white font-bold">projects</span>    - Scan repository index mapped secure to active nodes</p>
+  <p><span class="text-white font-bold">breach</span>      - Trigger hardware deviator bypass simulator</p>
+  <p><span class="text-white font-bold">matrix</span>      - Load live screen matrix binary blocks</p>
+  <p><span class="text-white font-bold">ping</span>        - Test sonar diagnostics transmission speed</p>
+  <p><span class="text-white font-bold">clear</span>       - Reset interactive output stream layout</p>
+</div>
+                    `);
+                    break;
+                case 'about':
+                    appendOutput(`
+<p class="text-gray-300 mt-2 leading-relaxed">
+  <span class="text-[#ff1a40] font-bold">CODE_ID:</span> Dats4794 <br>
+  <span class="text-[#ff1a40] font-bold">FOCUS_DOM:</span> Full-Stack Web Architecture & Native Mobile Engines <br>
+  <span class="text-[#ff1a40] font-bold">SYNOPSIS:</span> Active developer engineering secure, high-restoration solutions with native PHP micro-endpoints, strict typed TS structures, Expo, and workflow integrations designed for seamless performance.
+</p>
+                    `);
+                    break;
+                case 'skills':
+                    appendOutput(`
+<div class="space-y-1 mt-2">
+  <p class="text-white font-bold">// HARDWARE CAPABILITY MATRIX:</p>
+  <p><span class="text-[#ff1a40] font-semibold">[Front-End]:</span> React Native (TypeScript), Expo, dynamic styling schemas.</p>
+  <p><span class="text-[#ff1a40] font-semibold">[Back-End]:</span> Node.js, Express endpoints, lightweight PHP custom routers.</p>
+  <p><span class="text-[#ff1a40] font-semibold">[Databases]:</span> Relational SQL modeling, optimized indexing, transactional procedures.</p>
+</div>
+                    `);
+                    break;
+                case 'projects':
+                    appendOutput(`
+<div class="space-y-1 mt-2">
+  <p class="text-white font-bold">// SECURED NODE INDEX:</p>
+  <p>- <span class="text-yellow-400 font-bold">React Native Frameworks</span> (Modular cross-device workflows)</p>
+  <p>- <span class="text-yellow-400 font-bold">Custom REST Routings</span> (Light-footprint PHP SQL controllers)</p>
+  <p>- <span class="text-yellow-400 font-bold">Continuous Runner Hooks</span> (Target system deploy pipelines & workflow handlers)</p>
+</div>
+                    `);
+                    break;
+                case 'breach':
+                    appendOutput(`<p class="text-red-500 font-black tracking-widest animate-pulse mt-2">[!] LOCAL PROTOCOL EXTRUDING BYPASS CORE...</p>`);
+                    setTimeout(() => { triggerOverride(); }, 1000);
+                    break;
+                case 'matrix':
+                    appendOutput(`<p class="text-green-500 font-black mt-2">STREAMING RAW ENCRYPTED BINARY...</p>`);
+                    setTimeout(() => { triggerMatrixRain(); }, 800);
+                    break;
+                case 'ping':
+                    appendOutput(`<p class="text-rose-400 mt-1">PING host dats4794.github.io [13.229.188.59]... 64 bytes inside 0.44ms. SECURE.</p>`);
+                    triggerAudioPing();
+                    break;
+                case 'clear':
+                    const lines = termScreen.querySelectorAll('div');
+                    lines.forEach(line => {
+                        if (line.id !== 'term-anchor') line.remove();
+                    });
+                    break;
+                default:
+                    appendOutput(`<p class="text-red-500 font-bold mt-2">[ERROR] SHELL RECOGNITION FAIL: "${rawCmd}". Input "help" for payload override commands.</p>`);
+                    playSynthSound(180, 'sawtooth', 0.25, 0.1);
+                    break;
+            }
+        }
+
+        function submitTerminalCommand() {
+            const value = termInput.value;
+            if (value.trim()) {
+                handleTermCommand(value);
+                termInput.value = '';
+            }
+        }
+
+        function triggerOverride() {
+            playSynthSound(440, 'sawtooth', 0.15, 0.08);
+            setTimeout(() => { playSynthSound(550, 'sawtooth', 0.15, 0.08); }, 150);
+            setTimeout(() => { playSynthSound(660, 'sawtooth', 0.3, 0.08); }, 300);
+
+            document.getElementById('override-modal').classList.remove('hidden');
+        }
+
+        function closeOverrideModal() {
+            document.getElementById('override-modal').classList.add('hidden');
+        }
+
+        function simulateDatsBreach() {
+            const consoleBox = document.getElementById('modal-console');
+            consoleBox.innerHTML = '';
+            
+            playSynthSound(80, 'sawtooth', 1.0, 0.15);
+            document.body.classList.add('shaking-alert');
+
+            let steps = [
+                "RESOLVING CLIENT SSH CONNECTION PARAMS...",
+                "BYPASSING LOCAL DEPLOYMENT PORTALS...",
+                "FETCHING TARGET REPO SCHEMAS...",
+                "UPGRADING CORE PAYLOAD SECURITY CLEARANCES...",
+                "OVERRIDE COMPLETED SUCCESSFULLY."
+            ];
+
+            steps.forEach((step, index) => {
+                setTimeout(() => {
+                    const p = document.createElement('p');
+                    p.className = index === 4 ? "text-emerald-400 font-black animate-pulse" : "text-[#ff1a40]";
+                    p.innerText = `>> ${step}`;
+                    consoleBox.appendChild(p);
+                    consoleBox.scrollTop = consoleBox.scrollHeight;
+                    playSynthSound(300 + (index * 120), 'square', 0.12, 0.06);
+                }, index * 600);
+            });
+
+            setTimeout(() => {
+                document.body.classList.remove('shaking-alert');
+                closeOverrideModal();
+                appendOutput(`<span class="text-emerald-400 font-black uppercase">[SUCCESS] AUDIT TRACE SEQUENCES COMPLETED SAFELY.</span>`);
+            }, steps.length * 650);
+        }
+
+        function triggerMatrixRain() {
+            let iteration = 0;
+            const matrixInterval = setInterval(() => {
+                const matrixLine = Array.from({length: 40}, () => 
+                    String.fromCharCode(33 + Math.floor(Math.random() * 90))
+                ).join(' ');
+                appendOutput(`<span class="text-green-500 font-bold opacity-85 text-[10px] break-all">${matrixLine}</span>`);
+                iteration++;
+                if (iteration > 12) {
+                    clearInterval(matrixInterval);
+                    appendOutput(`<span class="text-green-500 font-bold">[i] STREAM DETACHED SAFELY.</span>`);
+                }
+            }, 80);
+        }
+
+        function triggerAudioPing() {
+            let currentF = 1600;
+            const interval = setInterval(() => {
+                playSynthSound(currentF, 'sine', 0.12, 0.06);
+                currentF -= 250;
+                if (currentF < 500) clearInterval(interval);
+            }, 100);
+        }
+
+        // Initialize lucide icons at run time
+        window.onload = function () {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
